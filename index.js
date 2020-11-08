@@ -108,6 +108,7 @@ resetBtn.addEventListener('click', ()=>{
     resetBtn.textContent = `Начать игру заново`;
     moves = 0;
     infoMove.textContent =`Совершено ${moves} шагов.`;
+    startTimer()
 });
 init(startSizeField);
 infoMove.textContent =`Совершено ${moves} шагов.`;
@@ -121,4 +122,32 @@ objSel.addEventListener('click', ()=>{
         return resetBtn.textContent = `Начать игру заново`; 
     }
     return resetBtn.textContent = `Начать игру с полем ${objSel.value}*${objSel.value}`;
-})
+});
+
+const time = document.querySelector('.time');
+let startTime ;
+function startTimer(){
+ startTime = new Date();
+ showTime();
+}
+function showTime() {
+  let today = new Date();
+  let timer = today - startTime;
+  let hour = ((timer/360000).toFixed())%60,
+  min = ((timer/60000).toFixed())%60
+  sec = ((timer/1000).toFixed())%60;
+
+
+
+  // // 12hr Format
+  // hour = hour % 12 || 12;
+//   weekDay.innerHTML = `${week}, ${day} ${month}.`;
+function addZero(n) {
+  return (parseInt(n, 10) < 10 ? '0' : '') + n;
+}
+  // Output Time
+  time.innerHTML = `Потрачено времени: ${addZero(hour)}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)} `;
+
+  setTimeout(showTime, 1000);
+}
+startTimer();
