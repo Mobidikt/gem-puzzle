@@ -1,11 +1,10 @@
 const resetBtn = document.querySelector('.btn__reset');
-
-const body = document.querySelector('.root');
-const infoMove = body.querySelector('.moves');
+const infoMove = document.querySelector('.moves');
 const field = document.querySelector('.field');
-let sizeField = 3;
+let startSizeField = 3;
 let cellSize = 100;
 let empty ={
+    value: startSizeField*startSizeField,
     top: 0,
     left: 0
 };
@@ -15,6 +14,12 @@ let moves = 0;
 
 
 cells.push(empty);
+const audio = document.querySelector(`audio[data-key=tink]`);
+
+function playSound(){
+  audio.currentTime = 0;
+  audio.play();
+}
 
 function move(index) {
     const cell = cells[index];
@@ -36,10 +41,14 @@ function move(index) {
     cell.top=emptyTop;
     cell.left=emptyLeft;
     moves = moves+1;
+    playSound();
     infoMove.textContent =`Совершено ${moves} шагов.`
     const isFinished = cells.every(cell => {
-        return cell.value === cell.top * 4 +cell.left;
-    })
+        console.log(cells)
+        return cell.value === cell.top * startSizeField +cell.left+1;
+
+    });
+    console.log(isFinished);
     if(isFinished) {
         console.log(1)
         alert('You won');
@@ -47,41 +56,44 @@ function move(index) {
 }
 
 function init(size){
-    empty ={
-    top: 0,
-    left: 0
-};
+    
 const count =size*size-1
 cells = [];
-cells.push(empty);
 const numbers = [...Array(count).keys()].sort(()=>Math.random()-0.5);
-        field.innerHTML=''
-for ( let i=1; i<=count; i++){
-    const value = numbers[i-1]+1;
+field.textContent=''
+for ( let i=0; i<=count-1; i++){
+    const value = numbers[i]+1;
     const cell = document.createElement('div');
     cell.className= 'cell';
     cell.textContent= value;
-
+    
     const left = i% size;
     const top = (i-left) /size;
-
+    // console.log(top);
+    
     cells.push({
         value: value,
         left: left,
         top: top,
         element: cell
     });
+    
     field.append(cell);
-cellSize = document.querySelector('.cell').offsetWidth;
+    cellSize = document.querySelector('.cell').offsetWidth;
     cell.style.left = `${left * cellSize}px`;
     cell.style.top = `${top * cellSize}px`;
     // cell.style.backgroundPositionY = `${25*top+25}%`;
     // cell.style.backgroundPositionX= `${25*left}%`;
     cell.addEventListener('click', ()=>{move(i)});
 }
+empty ={
+    value:size*size,
+    left: size-1,
+        top: size-1
+    };
+    cells.push(empty);
 const gem =document.querySelectorAll('.cell');
 cellSize = document.querySelector('.cell').offsetWidth;
-console.log(cellSize);
 gem.forEach(item=>{item.style.height = `${cellSize}px`;
 item.style.width = `${cellSize}px`;
 
@@ -91,11 +103,13 @@ field.style.width = `${cellSize*size}px`;
 }
 
 resetBtn.addEventListener('click', ()=>{
-    init(sizeField);
+    startSizeField = objSel.value;
+    init(startSizeField);
+    resetBtn.textContent = `Начать игру заново`;
     moves = 0;
     infoMove.textContent =`Совершено ${moves} шагов.`;
 });
-init(3);
+init(startSizeField);
 infoMove.textContent =`Совершено ${moves} шагов.`;
 
 const objSel = document.getElementById("list");
@@ -103,5 +117,8 @@ objSel.options[0] = new Option("Размер поля 3*3", "3");
 objSel.options[1] = new Option("Размер поля 4*4", "4");
 objSel.options[2] = new Option("Размер поля 8*8", "8");
 objSel.addEventListener('click', ()=>{
-    sizeField = objSel.value;
+    if(startSizeField == objSel.value) {
+        return resetBtn.textContent = `Начать игру заново`; 
+    }
+    return resetBtn.textContent = `Начать игру с полем ${objSel.value}*${objSel.value}`;
 })
