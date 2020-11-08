@@ -7,16 +7,23 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body class="root">
-    <div>
-        <h1>Игра пятнашки</h1>
+    <div class="menu">
+        <h1 class="title">Игра пятнашки</h1>
         <button class="btn__reset" type="button">Начать игру заново</button>
-            <select id="list"></select>
+        <select id="list" class="list"></select>
         <p class="moves"></p>
         <p class="time"></p>
 
         <audio data-key="tink" src="./assets/sounds/tink.wav"></audio>
     </div>
     <div class="field"></div>
+    <div class="popup">
+        <div class="popup__container"> 
+            <h3 class="popup__title">УРА!</h3>
+            <p class="popup__text"></p>
+            <button type="button" class="popup__close"></button>
+        </div>
+    </div>
     <script src="index.js"></script>
 </body>
 </html>

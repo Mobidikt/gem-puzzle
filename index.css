@@ -1,7 +1,47 @@
 .root {
+    font-size: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.menu{
+    display: flex;
+    flex-direction: column;
+}
+.title{
+    margin: 20px auto 10px;
+    font-size: 32px;
+}
+.btn__reset{
+    font-size: 20px;
+    background-color: transparent;
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 300px;
+    margin: 10px;
+    cursor: pointer;
+    outline: none;  
+}
+.list{
+    font-size: 20px;
+    text-align: center;
+    width: 300px;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin:0 auto 10px;
+}
+.moves{
+    font-size: 20px;
+    text-align: center;
+    padding: 0;
+    margin: 10px auto 10px;
+}
+.time{
+    padding: 0;
+    margin: 0 auto 10px;
+    font-size: 20px;
+    text-align: center;
 }
 .field{
     border: 5px solid black;
@@ -27,4 +67,67 @@
 }
 .cell:hover {
     background-color: blanchedalmond;
+}
+.popup__container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  position: relative;
+  max-width: 250px;
+  min-height: 50px;
+  border-radius: 9px;
+  background-color: #fafafa;
+}
+.popup__title{
+    font-size: 30px;
+}
+.popup__text{
+  font-size: 20px;
+line-height: 115%;
+letter-spacing: 0.06em;
+padding: 0;
+margin: 0 0 40px;
+}
+.popup__close {
+  height: 40px;
+  width: 40px;
+  border: none;
+  position: absolute;
+  padding: 0;
+  top: -60px;
+  right: -10px;
+  background-image: url(./assets/images/close.svg);
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  outline: none;
+}
+.popup {
+  position: fixed;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: visibility 0.5s, opacity 0.5s linear;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: rgb(41, 41, 41, 0.6);
+}
+.popup_opened {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.5s linear;
 }

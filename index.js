@@ -1,6 +1,7 @@
 const resetBtn = document.querySelector('.btn__reset');
 const infoMove = document.querySelector('.moves');
 const field = document.querySelector('.field');
+let results = [];
 let startSizeField = 3;
 let cellSize = 100;
 let empty ={
@@ -11,7 +12,7 @@ let empty ={
 
 let cells = [];
 let moves = 0;
-
+let isFinished= false;
 
 cells.push(empty);
 const audio = document.querySelector(`audio[data-key=tink]`);
@@ -42,16 +43,15 @@ function move(index) {
     cell.left=emptyLeft;
     moves = moves+1;
     playSound();
-    infoMove.textContent =`Совершено ${moves} шагов.`
-    const isFinished = cells.every(cell => {
-        console.log(cells)
+    infoMove.textContent =`Совершено ${moves} ходов.`
+    isFinished = cells.every(cell => {
         return cell.value === cell.top * startSizeField +cell.left+1;
 
     });
-    console.log(isFinished);
+
     if(isFinished) {
-        console.log(1)
-        alert('You won');
+        open();
+        popupText.textContent = `Вы решили головоломку за ${addZero(hour)}:${addZero(min)}:${addZero(sec)} и ${moves} ходов.`
     }
 }
 
@@ -69,7 +69,6 @@ for ( let i=0; i<=count-1; i++){
     
     const left = i% size;
     const top = (i-left) /size;
-    // console.log(top);
     
     cells.push({
         value: value,
@@ -107,11 +106,11 @@ resetBtn.addEventListener('click', ()=>{
     init(startSizeField);
     resetBtn.textContent = `Начать игру заново`;
     moves = 0;
-    infoMove.textContent =`Совершено ${moves} шагов.`;
-    startTimer()
+    infoMove.textContent =`Совершено ${moves} ходов.`;
+    startTimer();
 });
 init(startSizeField);
-infoMove.textContent =`Совершено ${moves} шагов.`;
+infoMove.textContent =`Совершено ${moves} ходов.`;
 
 const objSel = document.getElementById("list");
 objSel.options[0] = new Option("Размер поля 3*3", "3");
@@ -126,28 +125,53 @@ objSel.addEventListener('click', ()=>{
 
 const time = document.querySelector('.time');
 let startTime ;
+let timer = 0;
+let hour = 0,
+  min = 0,
+  sec = 0;
 function startTimer(){
  startTime = new Date();
- showTime();
+ showTimer();
 }
-function showTime() {
-  let today = new Date();
-  let timer = today - startTime;
-  let hour = ((timer/360000).toFixed())%60,
-  min = ((timer/60000).toFixed())%60
-  sec = ((timer/1000).toFixed())%60;
-
-
-
-  // // 12hr Format
-  // hour = hour % 12 || 12;
-//   weekDay.innerHTML = `${week}, ${day} ${month}.`;
 function addZero(n) {
   return (parseInt(n, 10) < 10 ? '0' : '') + n;
 }
-  // Output Time
-  time.innerHTML = `Потрачено времени: ${addZero(hour)}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)} `;
-
-  setTimeout(showTime, 1000);
-}
+function showTimer() {
+  let today = new Date();
+  timer = today - startTime;
+  hour = ((timer/360000).toFixed())%60;
+  min = ((timer/60000).toFixed())%60;
+  sec = ((timer/1000).toFixed())%60;
+  time.textContent = `Потрачено времени: ${addZero(hour)}:${addZero(min)}:${addZero(sec)} `;
+  let timerTimeout= setTimeout(showTimer, 1000);
+    if(isFinished) {
+        clearTimeout(timerTimeout);}
+    }
 startTimer();
+
+const popup = document.querySelector('.popup');
+const closeBtn = document.querySelector('.popup__close');
+const popupText = document.querySelector('.popup__text');
+closeBtn.addEventListener('click', ()=>{
+    close();
+})
+function close() {
+    popup.classList.remove("popup_opened");
+    document.removeEventListener("keydown", this._handleEscClose);
+    document.removeEventListener("click", this._overlayClose);
+  }
+  function  handleEscClose(e) {
+    if (e.key === "Escape") {
+        close();
+    }
+  };
+ function overlayClose(e) {
+    if (e.target.classList.contains("popup")) {
+      close();
+    }
+  };
+  function open() {
+    popup.classList.add("popup_opened");
+    document.addEventListener("keydown", this._handleEscClose);
+    document.addEventListener("click", this._overlayClose);
+  }
