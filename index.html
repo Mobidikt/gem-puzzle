@@ -9,11 +9,12 @@
 <body class="root">
     <div class="menu">
         <h1 class="title">Игра пятнашки</h1>
-        <button class="btn__reset" type="button">Начать игру заново</button>
+        <button class="btn btn__reset" type="button">Начать игру заново</button>
         <select id="list" class="list"></select>
         <p class="moves"></p>
         <p class="time"></p>
-
+        <button class="btn btn__results" type="button">Результаты</button>
+        <button class="btn btn__finish" type="button">Закончить игру</button>
         <audio data-key="tink" src="./assets/sounds/tink.wav"></audio>
     </div>
     <div class="field"></div>
@@ -24,6 +25,13 @@
             <button type="button" class="popup__close"></button>
         </div>
     </div>
-    <script src="index.js"></script>
+    <div class="popup__result">
+        <div class="popup__container"> 
+            <h3 class="popup__title">Ваши лучшие результаты</h3>
+            <p class="popup__text"></p>
+            <button type="button" class="popup__close"></button>
+        </div>
+    </div>
+    <script type="module" src="index.js"></script>
 </body>
 </html>
