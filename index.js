@@ -1,9 +1,10 @@
 import { infoMove, resetBtn, field, resultBtn, popupResult, closePopupResult, objSel, popup, closeBtn, popupText, time, finish } from './utils/constants.js';
 import { playSound } from './utils/song.js';
+import { gemStyle } from './utils/gemStyle.js';
 //import './index.css';
 
 let results =[];
-let startSizeField = 3;
+let startSizeField = 4;
 let cellSize = 100;
 let empty ={
     value: startSizeField*startSizeField,
@@ -84,9 +85,8 @@ function init(size){
         cellSize = document.querySelector('.cell').offsetWidth;
         cell.style.left = `${left * cellSize}px`;
         cell.style.top = `${top * cellSize}px`;
+       
         cell.addEventListener('click', ()=>{move(i)});
-        // cell.style.backgroundPositionY = `${25*top+25}%`;
-        // cell.style.backgroundPositionX= `${25*left}%`;
     }
     empty ={
         value:size*size,
@@ -94,14 +94,11 @@ function init(size){
         top: size-1
     };
     cells.push(empty);
-    const gem =document.querySelectorAll('.cell');
-    cellSize = document.querySelector('.cell').offsetWidth;
-    gem.forEach(item=>{item.style.height = `${cellSize}px`;
-        item.style.width = `${cellSize}px`;
-    });
+    gemStyle (size, cellSize);
     field.style.height = `${cellSize*size}px`;
     field.style.width = `${cellSize*size}px`;
 };
+
 
 function close(popup) {
     popup.classList.remove("popup_opened");
@@ -131,7 +128,6 @@ function finishGame(){
         return sortGem(a)-sortGem(b)
     })
     field.textContent='';
-    console.log(cells)
     for ( let i=0; i<=cells.length-2; i++){
         const value = cells[i].value;
         const cell = document.createElement('div');
@@ -142,13 +138,10 @@ function finishGame(){
         field.append(cell);
         const gem =document.querySelectorAll('.cell');
         cellSize = document.querySelector('.cell').offsetWidth;
-        gem.forEach(item=>{item.style.height = `${cellSize}px`;
-            item.style.width = `${cellSize}px`;
-        });
         cell.style.left = `${left * cellSize}px`;
         cell.style.top = `${top * cellSize}px`;
-        cell.addEventListener('click', ()=>{move(i)});
     }
+    gemStyle (Math.sqrt(cells.length), cellSize);
     isFinished=true
     open(popup);
     popupText.textContent = `Вы решили головоломку за ${addZero(hour)}:${addZero(min)}:${addZero(sec)} и ${moves} ходов.`

@@ -61,9 +61,10 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    color: #ffffff;
     background-color: #ffffff;
-    /* background-size: 500%;
-    background-image: url(./images/ship.jpg); */
+    background-size: 500%;
+    background-image: url(./assets/images/storm.jpg);
 }
 .cell:hover {
     background-color: blanchedalmond;
