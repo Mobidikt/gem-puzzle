@@ -1,10 +1,11 @@
 import { infoMove, resetBtn, field, resultBtn, popupResult, closePopupResult, objSel, popup, closeBtn, popupText, time, finish } from './utils/constants.js';
 import { playSound } from './utils/song.js';
 import { gemStyle } from './utils/gemStyle.js';
+import { checkingSolution } from './utils/checkingSolution.js';
 //import './index.css';
 
 let results =[];
-let startSizeField = 4;
+let startSizeField = 3;
 let cellSize = 100;
 let empty ={
     value: startSizeField*startSizeField,
@@ -67,7 +68,11 @@ function init(size){
     const count =size*size-1
     cells = [];
     const numbers = [...Array(count).keys()].sort(()=>Math.random()-0.5);
-    field.textContent=''
+    const check = checkingSolution (numbers, size);
+    if(check%2 != 0){
+        return init(size);
+    }
+    field.textContent='';
     for ( let i=0; i<=count-1; i++){
         const value = numbers[i]+1;
         const cell = document.createElement('div');
