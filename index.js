@@ -192,6 +192,7 @@ resetBtn.addEventListener('click', ()=>{
     resetBtn.textContent = `Начать игру заново`;
     moves = 0;
     infoMove.textContent =`Совершено ${moves} ходов.`;
+    isFinished= false;
     startTimer();
 });
 closeBtn.addEventListener('click', ()=>{
